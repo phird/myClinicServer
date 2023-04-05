@@ -35,6 +35,10 @@ JWT_REFRESH_TOKEN_EXPIRE_TIME=10m
 
 Note: Replace <your_jwt_secret> and <your_jwt_refresh_token_secret> with your own values.
 
+TO config Database Connection go to config/index.js Folder
+
+![Screenshot 1](/image/Screenshot%202566-04-05%20at%201.35.42%20PM.png)
+
 Start the server using the following command:
 
 ```bash
