@@ -1,7 +1,5 @@
 # myClinicServer
 
-myClinicServer is built using nodemon.
-
 ## Installation - Server Side
 
 Clone the myClinicServer repository
