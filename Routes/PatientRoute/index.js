@@ -26,7 +26,7 @@ router.get('/list/getdata', (req, res) => {
         sort = 'DESC',
         sortColumn = 'patientID'
       } = req.query;
-    const sqlSelect = `SELECT * FROM Patient WHERE LOWER(fname) LIKE LOWER(?) OR patientID LIKE ? ORDER BY ${sortColumn} ${sort}`;
+    const sqlSelect = `SELECT * FROM Patient WHERE delStatus = 0 AND LOWER(fname) LIKE LOWER(?) OR patientID LIKE ? ORDER BY ${sortColumn} ${sort}`;
     db.query(sqlSelect,[ `%${q}%`, q ] , (err, patient) => {
         if (err) {
             console.error(err)

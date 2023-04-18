@@ -4,6 +4,19 @@ import db from '../../config/index.js'
 
 const router = express.Router();
 
+router.get('/allData', (req,res)=> {
+    const sqlSelect = `SELECT staff.*, Role.name FROM Staff JOIN Role ON Staff.roleID = Role.roleID WHERE Staff.status = 1 `
+    db.query(sqlSelect, (err, staff) => {
+        if (err) {
+            console.error(err)
+            console.log("error occur in Staff js")
+        }
+        return res.status(200).send(staff)
+    })
+})
+
+
+
 
 router.get('/allData/:id', (req, res) => {
     const currentUserID = req.params.id

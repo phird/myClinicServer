@@ -18,7 +18,7 @@ router.get('/getInvoice' , (req,res) => {  // ** Get list/data
         sortColumn = 'invID',
     } = req.query 
 
-    const sqlSelect = `SELECT Invoice.*, Patient.fname, Patient.lname FROM Invoice JOIN Patient ON Invoice.patientID = Patient.patientID WHERE Invoice.status = 1 AND LOWER(Patient.fname) LIKE LOWER(?) OR Invoice.encounterID LIKE ? ORDER BY ${sortColumn} ${sort}`
+    const sqlSelect = `SELECT Invoice.*, Patient.fname, Patient.lname, Patient.delStatus FROM Invoice JOIN Patient ON Invoice.patientID = Patient.patientID WHERE Invoice.status = 1 AND LOWER(Patient.fname) LIKE LOWER(?) OR Invoice.encounterID LIKE ? ORDER BY ${sortColumn} ${sort}`
     db.query(sqlSelect,[ `%${q}%`, q ] , (err, Invoice) =>{
         if(err){
             console.log("err in getInvoice")

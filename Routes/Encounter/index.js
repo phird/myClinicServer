@@ -71,7 +71,7 @@ router.get('/list/getdata', (req, res) => {
         sort = 'DESC',
         sortColumn = 'encounterID'
     } = req.query;
-    const sqlSelect = `SELECT Encounter.*, Patient.fname, Patient.lname, Invoice.invID FROM Encounter JOIN Patient JOIN Invoice ON Encounter.patientID = Patient.patientID AND Encounter.encounterID = Invoice.encounterID WHERE LOWER(Patient.fname) LIKE LOWER(?) OR Encounter.encounterID LIKE ? ORDER BY ${sortColumn} ${sort}` 
+    const sqlSelect = `SELECT Encounter.*, Patient.fname, Patient.lname, Patient.delStatus, Invoice.invID FROM Encounter JOIN Patient JOIN Invoice ON Encounter.patientID = Patient.patientID AND Encounter.encounterID = Invoice.encounterID WHERE LOWER(Patient.fname) LIKE LOWER(?) OR Encounter.encounterID LIKE ? ORDER BY ${sortColumn} ${sort}` 
     db.query(sqlSelect, [`%${q}%`, q], (err, encounters) => {
         if (err) {
             console.error(err);
@@ -99,8 +99,8 @@ router.get('/list/getdata/:id', (req, res) => {
 
 router.get('/widgetData/:id', (req,res) => {
     const id = req.params.id
-    const sqlSelect = `SELECT * FROM Encounter JOIN ( SELECT MAX(addedDate) AS latest_encounter_date FROM Encounter WHERE patientID = ${id} AND eStatus = 0 ) AS latest_encounter ON Encounter.addedDate = latest_encounter.latest_encounter_date AND Encounter.patientID = ${id} AND Encounter.eStatus = 0 JOIN Encounter_symptom ON Encounter.encounterID = Encounter_symptom.EncounterID   `
-    db.query(sqlSelect, (err,encounter) => {
+    const sqlSelect = `SELECT * FROM Encounter JOIN ( SELECT MAX(addedDate) AS latest_encounter_date FROM Encounter WHERE patientID = ? AND eStatus = 0 ) AS latest_encounter ON Encounter.addedDate = latest_encounter.latest_encounter_date AND Encounter.patientID = ? AND Encounter.eStatus = 0`
+    db.query(sqlSelect, [id, id],(err,encounter) => {
         if(err){
             console.log('Error in widgetData')
             console.error(err)
@@ -113,7 +113,7 @@ router.get('/widgetData/:id', (req,res) => {
 
 router.get('/encounters/encounter/:id', (req, res) => {
     const id = req.params.id
-    const sqlSelect = "SELECT * , Invoice.invID, Prescription.prescriptionID FROM Encounter JOIN Patient JOIN Invoice JOIN Prescription ON  Encounter.patientID = Patient.patientID AND Encounter.encounterID = Invoice.encounterID AND Encounter.encounterID = Prescription.encounterID WHERE Encounter.encounterID=? "
+    const sqlSelect = "SELECT *  FROM Encounter  JOIN Patient  JOIN Invoice  JOIN Prescription ON  Encounter.patientID = Patient.patientID AND Encounter.encounterID = Invoice.encounterID AND Encounter.encounterID = Prescription.encounterID  WHERE Encounter.encounterID=? "
     db.query(sqlSelect, id, (err, encounter) => {
         if (err) throw err;
         
