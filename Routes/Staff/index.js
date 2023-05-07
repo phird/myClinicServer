@@ -15,9 +15,6 @@ router.get('/allData', (req,res)=> {
     })
 })
 
-
-
-
 router.get('/allData/:id', (req, res) => {
     const currentUserID = req.params.id
     const sqlSelect = `SELECT staff.*, Role.name FROM Staff JOIN Role ON Staff.roleID = Role.roleID WHERE Staff.status = 1 AND Staff.staffID != ?`

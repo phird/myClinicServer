@@ -12,9 +12,11 @@ import PrescriptionRoute from './Routes/Prescription/index.js'
 import InvoiceRoute from './Routes/Invoice/index.js'
 import ServiceRoute from './Routes/ServicesRoute/index.js'
 import StaffRoute from './Routes/Staff/index.js'
+import AppointmentRoute from './Routes/Appointment/index.js'
 import RoleRoute from './Routes/RoleRoute/index.js'
 import JWTRoute from './Routes/Users/index.js'
 import ClinicInfo from './Routes/Clinic_Info/index.js'
+import DiseaseRouter from './Routes/Disease/index.js'
 app.use(cors());
 app.use(express.json());
 
@@ -32,6 +34,8 @@ app.use('/staff', StaffRoute);
 app.use('/role', RoleRoute);
 app.use('/jwt', JWTRoute);
 app.use('/clinic', ClinicInfo);
+app.use('/v1/diseases/api', DiseaseRouter);
+app.use('/v1/api/appts', AppointmentRoute);
 app.listen(port, () => {
     console.log("Running in port", port);
 })
